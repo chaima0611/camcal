@@ -3,7 +3,7 @@ import keyboard
 import time
 
 def start_preview():
-    subprocess.run(["libcamera-still", "-t", "0"])
+    subprocess.Popen(["libcamera-still", "-t", "0"])
 
 def capture_image(index):
     filename = f"output_{index}.jpg"
@@ -27,4 +27,5 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         pass
 
+    # Optionally, stop the preview when the program exits
     subprocess.run(["libcamera-still", "--stop-preview"])
