@@ -1,0 +1,14 @@
+import subprocess
+import keyboard
+
+def capture_image():
+    subprocess.run(["libcamera-still", "-o", "output.jpg", "-n"])
+
+if __name__ == "__main__":
+    print("Press 's' to capture an image. Press 'q' to quit.")
+    while True:
+        if keyboard.is_pressed("s"):
+            capture_image()
+            print("Image captured!")
+        elif keyboard.is_pressed("q"):
+            break
