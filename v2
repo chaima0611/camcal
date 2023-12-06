@@ -5,23 +5,26 @@ import time
 def start_preview():
     subprocess.run(["libcamera-still", "-t", "0"])
 
-def capture_image():
-    subprocess.run(["libcamera-still", "-o", "output.jpg", "-n"])
+def capture_image(index):
+    filename = f"output_{index}.jpg"
+    subprocess.run(["libcamera-still", "-o", filename, "-n"])
+    print(f"Image captured: {filename}")
+    return index + 1  # Increment the counter
 
 if __name__ == "__main__":
     start_preview()
     print("Press 's' to capture an image. Press 'q' to quit.")
-    
+
+    capture_index = 1  # Initialize the counter
+
     try:
         while True:
             if keyboard.is_pressed("s"):
-                capture_image()
-                print("Image captured!")
+                capture_index = capture_image(capture_index)
             elif keyboard.is_pressed("q"):
                 break
-            time.sleep(0.1)  # Add a small delay to reduce CPU usage
+            time.sleep(0.1)
     except KeyboardInterrupt:
-        pass  # Handle Ctrl+C to gracefully exit the loop
+        pass
 
-    # Optionally, stop the preview when the program exits
     subprocess.run(["libcamera-still", "--stop-preview"])
