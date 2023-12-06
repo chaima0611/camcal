@@ -1,0 +1,27 @@
+import subprocess
+import keyboard
+import time
+
+def start_preview():
+    subprocess.run(["libcamera-still", "-t", "0"])
+
+def capture_image():
+    subprocess.run(["libcamera-still", "-o", "output.jpg", "-n"])
+
+if __name__ == "__main__":
+    start_preview()
+    print("Press 's' to capture an image. Press 'q' to quit.")
+    
+    try:
+        while True:
+            if keyboard.is_pressed("s"):
+                capture_image()
+                print("Image captured!")
+            elif keyboard.is_pressed("q"):
+                break
+            time.sleep(0.1)  # Add a small delay to reduce CPU usage
+    except KeyboardInterrupt:
+        pass  # Handle Ctrl+C to gracefully exit the loop
+
+    # Optionally, stop the preview when the program exits
+    subprocess.run(["libcamera-still", "--stop-preview"])
