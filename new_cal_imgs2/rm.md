@@ -40,3 +40,12 @@ Preview window unavailable
 #30 (10.00 fps) exp 44361.00 ag 4.00 dg 1.00
 #31 (10.00 fps) exp 44361.00 ag 4.00 dg 1.00
 
+
+
+sudo apt upgrade libcamera
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+E: Unable to locate package libcamera
+
+
