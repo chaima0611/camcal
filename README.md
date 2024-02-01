@@ -7,3 +7,5 @@ Libcamera: https://docs.arducam.com/Raspberry-Pi-Camera/Native-camera/Libcamera-
 
 ROS2 Camera V2:
 https://medium.com/swlh/raspberry-pi-ros-2-camera-eef8f8b94304
+
+command: rpicam-jpeg -o test.jpg -t 2000 --width 640 --height 480   -->   subprocess.run(["rpicam-jpeg", "-o", filename, "-n", "--width", width, "height", height])
