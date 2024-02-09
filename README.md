@@ -11,3 +11,7 @@ https://medium.com/swlh/raspberry-pi-ros-2-camera-eef8f8b94304
 command: rpicam-jpeg -o test.jpg -t 2000 --width 640 --height 480   -->   subprocess.run(["rpicam-jpeg", "-o", filename, "-n", "--width", width, "height", height])
 
 coordinates of a point in an image opencv: https://pyseek.com/2022/06/get-coordinates-of-the-clicked-points-in-python/
+
+
+LCD SCREEN:
+https://forums.raspberrypi.com/viewtopic.php?t=14914
