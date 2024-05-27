@@ -29,3 +29,34 @@ if __name__ == "__main__":
         bot.reset_flash_value()
 
         del bot
+
+import serial
+
+def receive_data_from_usart(port, baudrate, timeout):
+    ser = serial.Serial(port, baudrate, timeout=timeout)
+    
+    try:
+        while True:
+            # Read bytes from serial port
+            received_bytes = ser.read(6)  # Assuming you're sending 3 uint16_t values (6 bytes in total)
+            
+            # Check if any bytes are received
+            if received_bytes:
+                # Process received data (assuming it's in little-endian format)
+                # Convert bytes to integers
+                value1 = received_bytes[1] << 8 | received_bytes[0]
+                value2 = received_bytes[3] << 8 | received_bytes[2]
+                value3 = received_bytes[5] << 8 | received_bytes[4]
+                
+                # Print received values
+                print("Received Values:")
+                print(f"Value 1: {value1}")
+                print(f"Value 2: {value2}")
+                print(f"Value 3: {value3}")
+    
+    except KeyboardInterrupt:
+        print("Keyboard Interrupt detected. Exiting...")
+    
+    finally:
+        # Close serial port
+        ser.close()
