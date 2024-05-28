@@ -96,3 +96,14 @@ finally:
 
                 # Optional: Add a small delay to prevent high CPU usage
                 time.sleep(0.1)
+
+
+while True:
+        # Read 4 buffers of 4 bytes each
+        data = ser.read(4 * 4)  # 4 buffers of 4 bytes each
+        
+        # Reconstruct signed integers
+        integers = [int.from_bytes(data[i:i+4], byteorder='little', signed=True) for i in range(0, len(data), 4)]
+        
+        # Print received integers
+        print("Received integers:", integers)
