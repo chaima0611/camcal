@@ -60,3 +60,25 @@ def receive_data_from_usart(port, baudrate, timeout):
     finally:
         # Close serial port
         ser.close()
+
+
+
+
+try:
+    while True:
+        if ser.in_waiting > 0:
+            # Read data from serial port
+            data = ser.read_until()  # Read until a newline or timeout
+            # Decode the received bytes into a string
+            decoded_data = data.decode('utf-8').strip()
+            print(f"Received data: {decoded_data}")
+
+        # Optional: Add a small delay to prevent high CPU usage
+        time.sleep(0.1)
+
+except KeyboardInterrupt:
+    print("Exiting program")
+
+finally:
+    # Close the serial port
+    ser.close()
