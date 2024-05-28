@@ -82,3 +82,17 @@ except KeyboardInterrupt:
 finally:
     # Close the serial port
     ser.close()
+
+
+
+# Unpack the four buffers of 20 bytes each
+                unpacked_data1 = struct.unpack('5I', data[0:20])   # First 20 bytes
+                unpacked_data2 = struct.unpack('5I', data[20:40])  # Next 20 bytes
+                unpacked_data3 = struct.unpack('5I', data[40:60])  # Next 20 bytes
+                unpacked_data4 = struct.unpack('5I', data[60:80])  # Last 20 bytes
+                
+                # Store the received data in a global variable
+                received_data.append((unpacked_data1, unpacked_data2, unpacked_data3, unpacked_data4))
+
+                # Optional: Add a small delay to prevent high CPU usage
+                time.sleep(0.1)
