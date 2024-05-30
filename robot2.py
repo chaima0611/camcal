@@ -130,3 +130,44 @@ def main():
 if __name__ == "__main__":
     main()
 
+
+
+
+def read_int32_from_serial():
+    # Read 8 bytes from the serial port (4 bytes for integer, 4 bytes for CRC)
+    data = ser.read(8)
+    if len(data) != 8:
+        print("Error: Received incorrect number of bytes:", len(data))
+        return None
+    
+    # Extract integer value from received data
+    received_value = struct.unpack('<i', data[:4])[0]
+
+    # Calculate CRC32 for the received data (excluding the CRC bytes)
+    received_crc = struct.unpack('<I', data[4:])[0]
+    calculated_crc = crc32(data[:4])
+
+    # Validate CRC
+    if received_crc != calculated_crc:
+        print("Error: CRC mismatch. Data may be corrupted.")
+        return None
+
+    return received_value
+
+def crc32(data):
+    # CRC32 algorithm implementation (example)
+    crc = 0xFFFFFFFF
+    for byte in data:
+        crc ^= byte
+        for _ in range(8):
+            crc = (crc >> 1) ^ (0xEDB88320 if crc & 1 else 0)
+    return crc & 0xFFFFFFFF
+
+def main():
+    while True:
+        value = read_int32_from_serial()
+        if value is not None:
+            print(f"Received value: {value}")
+
+if __name__ == "__main__":
+    main()
