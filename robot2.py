@@ -171,3 +171,53 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+import serial
+import struct
+import threading
+import queue
+
+# Global variables
+received_data_queue = queue.Queue()
+ser = serial.Serial(
+    port='/dev/ttyS0',  # Replace with your actual serial port name
+    baudrate=115200,    # Ensure this matches your STM32's USART configuration
+    timeout=1           # Read timeout
+)
+
+def read_serial():
+    while True:
+        # Read 4 bytes from the serial port
+        data = ser.read(4)
+        if len(data) == 4:
+            received_data_queue.put(data)
+
+def process_serial_data():
+    while True:
+        # Get 4 bytes from the queue
+        data = received_data_queue.get()
+        # Convert the bytes to a 32-bit signed integer (little-endian)
+        value = struct.unpack('<i', data)[0]
+        print(f"Received value: {value}")
+
+def main():
+    # Start the serial reading thread
+    serial_reader_thread = threading.Thread(target=read_serial)
+    serial_reader_thread.daemon = True
+    serial_reader_thread.start()
+
+    # Start the serial data processing thread
+    serial_processor_thread = threading.Thread(target=process_serial_data)
+    serial_processor_thread.daemon = True
+    serial_processor_thread.start()
+
+    # Keep the main thread alive
+    serial_reader_thread.join()
+    serial_processor_thread.join()
+
+if __name__ == "__main__":
+    main()
+
