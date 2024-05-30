@@ -107,3 +107,26 @@ while True:
         
         # Print received integers
         print("Received integers:", integers)
+
+
+
+def read_int32_from_serial():
+    # Read 4 bytes from the serial port
+    data = ser.read(4)
+    if len(data) != 4:
+        print("Error: Received incorrect number of bytes.")
+        return None
+
+    # Convert the bytes to a 32-bit signed integer (little-endian)
+    value = struct.unpack('<i', data)[0]
+    return value
+
+def main():
+    while True:
+        value = read_int32_from_serial()
+        if value is not None:
+            print(f"Received value: {value}")
+
+if __name__ == "__main__":
+    main()
+
